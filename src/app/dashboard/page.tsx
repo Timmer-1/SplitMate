@@ -18,8 +18,6 @@ import {
 import ProfileDropdown from '@/components/ui/profile';
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('overview');
-
   // Mock data
   const recentTransactions = [
     { id: 1, description: "Dinner at Luigi's", amount: 84.50, group: "Weekend Trip", date: "2 hours ago", type: "expense", participants: 4 },

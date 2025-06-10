@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   User, 
   Settings, 
@@ -13,6 +14,7 @@ import {
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const router = useRouter();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -28,35 +30,33 @@ const ProfileDropdown = () => {
 
   const menuItems = [
     {
-      icon: User,
-      label: 'My Profile',
-      description: 'Manage your account',
-      action: () => console.log('Profile clicked')
-    },
-    {
       icon: Settings,
       label: 'Settings',
       description: 'Preferences & privacy',
-      action: () => console.log('Settings clicked')
+      action: () => router.push('/settings'),
+      href: '/settings',
     },
     {
       icon: CreditCard,
       label: 'Billing',
       description: 'Plans & payments',
-      action: () => console.log('Billing clicked')
+      action: () => router.push('/billing'),
+      href: '/billing',
     },
     {
       icon: Bell,
       label: 'Notifications',
       description: 'Alerts & updates',
       badge: '3',
-      action: () => console.log('Notifications clicked')
+      action: () => router.push('/notifications'),
+      href: '/notifications',
     },
     {
       icon: HelpCircle,
       label: 'Help & Support',
       description: 'Get assistance',
-      action: () => console.log('Help clicked')
+      action: () => router.push('/help'),
+      href: '/help',
     }
   ];
 
