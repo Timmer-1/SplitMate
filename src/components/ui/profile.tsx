@@ -7,15 +7,11 @@ import {
   Bell, 
   HelpCircle, 
   LogOut, 
-  ChevronDown,
-  Shield,
-  Moon,
-  Sun
+  Shield
 } from 'lucide-react';
 
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -55,12 +51,6 @@ const ProfileDropdown = () => {
       description: 'Alerts & updates',
       badge: '3',
       action: () => console.log('Notifications clicked')
-    },
-    {
-      icon: Shield,
-      label: 'Privacy & Security',
-      description: 'Account protection',
-      action: () => console.log('Privacy clicked')
     },
     {
       icon: HelpCircle,
