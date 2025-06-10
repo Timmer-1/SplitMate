@@ -8,18 +8,14 @@ import {
   Receipt, 
   TrendingUp, 
   Bell,
-  Search,
   Filter,
   MoreVertical,
   ArrowUpRight,
   ArrowDownLeft,
   Sparkles,
-  Calendar,
-  CreditCard,
   PieChart,
-  Settings,
-  LogOut
 } from 'lucide-react';
+import ProfileDropdown from '@/components/ui/profile';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -65,14 +61,8 @@ const Dashboard = () => {
 
             {/* Search & Actions */}
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Search className="h-4 w-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-                <input 
-                  type="text" 
-                  placeholder="Search expenses..."
-                  className="pl-9 pr-4 py-2 bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all w-64"
-                />
-              </div>
+             
+            
               <button className="p-2 hover:bg-slate-100 rounded-xl transition-colors relative">
                 <Bell className="h-5 w-5 text-slate-600" />
                 <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full animate-pulse"></span>
@@ -81,6 +71,7 @@ const Dashboard = () => {
                 <Plus className="h-4 w-4" />
                 <span className="font-medium">Add Expense</span>
               </button>
+              <ProfileDropdown />
             </div>
           </div>
         </div>
