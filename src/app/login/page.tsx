@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Calculator, Sparkles, Eye, EyeOff, Mail, Lock, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase'
+import Link from 'next/link';
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -61,15 +62,19 @@ export default function LoginPage() {
                             <Calculator className="h-10 w-10 text-green-600 group-hover:text-green-700 transition-colors duration-300" />
                             <Sparkles className="h-4 w-4 text-amber-500 absolute -top-1 -right-1 animate-pulse" />
                         </div>
-                        <h1 className="text-3xl font-black bg-gradient-to-r from-gray-800 to-green-700 bg-clip-text text-transparent">
-                            SplitMate
-                        </h1>
+                        <Link href='/' >
+                            <h1 className="text-3xl font-black bg-gradient-to-r from-gray-800 to-green-700 bg-clip-text text-transparent">
+                                SplitMate
+                            </h1>
+                        </Link>
                     </div>
                     <div className="text-sm text-gray-600">
                         Don't have an account?{' '}
-                        <button className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
-                            Sign up
-                        </button>
+                        <Link href='/signup' >
+                            <button className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
+                                Sign up
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </header>
@@ -143,12 +148,14 @@ export default function LoginPage() {
 
                             {/* Forgot Password */}
                             <div className="flex justify-end">
-                                <button
-                                    className="text-sm text-emerald-600 hover:text-emerald-700 font-semibold transition-colors disabled:opacity-50"
-                                    disabled={loading}
-                                >
-                                    Forgot Password?
-                                </button>
+                                <Link href='/forgotpassword' >
+                                    <button
+                                        className="text-sm text-emerald-600 hover:text-emerald-700 font-semibold transition-colors disabled:opacity-50"
+                                        disabled={loading}
+                                    >
+                                        Forgot Password?
+                                    </button>
+                                </Link>
                             </div>
 
                             {/* Login Button */}
@@ -172,9 +179,11 @@ export default function LoginPage() {
                         <div className="text-center mt-6">
                             <p className="text-gray-600">
                                 Not registered yet?{' '}
-                                <button className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
-                                    Create an account →
-                                </button>
+                                <Link href='/signup' >
+                                    <button className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors" >
+                                        Create an account →
+                                    </button>
+                                </Link>
                             </p>
                         </div>
                     </div>
