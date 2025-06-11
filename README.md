@@ -100,37 +100,6 @@ splitmate/
 
 ---
 
-## 🎨 UI Components
-
-SplitMate includes reusable, modern UI components:
-
-* **Button** – Customizable with multiple variants
-* **Card** – Composable layout with header, body, and footer
-* **RippleButton** – Adds a material ripple effect
-* **AnimatedText** – Eye-catching animations via Framer Motion
-
-#### Example Usage
-
-```tsx
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-
-export function ExampleComponent() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Expense Summary</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Button>Split Bill</Button>
-      </CardContent>
-    </Card>
-  )
-}
-```
-
----
-
 ## 🌟 Key Features in Detail
 
 ### 🧠 AI-Powered Categorization
@@ -148,26 +117,6 @@ Designed with Tailwind CSS 4, SplitMate delivers a consistent and beautiful expe
 ### 🎞 Smooth Animations
 
 Framer Motion enhances interactivity without compromising performance.
-
----
-
-## 🔧 Configuration
-
-### Tailwind CSS
-
-Custom Tailwind setup includes:
-
-* CSS variables for theming
-* Animation utilities from `tw-animate-css`
-* Responsive breakpoints and utility-first classes
-
-### TypeScript
-
-Strict typing configuration includes:
-
-* Full IDE support
-* Reduced runtime bugs
-* Safer refactoring and code reviews
 
 ---
 

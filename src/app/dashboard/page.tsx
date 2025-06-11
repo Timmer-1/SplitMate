@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useState } from 'react';
-import { 
-  Calculator, 
-  Plus, 
-  Users, 
-  Receipt, 
-  TrendingUp, 
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Calculator,
+  Plus,
+  Users,
+  Receipt,
+  TrendingUp,
   Bell,
   Filter,
   MoreVertical,
@@ -16,6 +16,9 @@ import {
   PieChart,
 } from 'lucide-react';
 import ProfileDropdown from '@/components/ui/profile';
+import AddExpense, { ExpenseFormData } from '@/components/ui/add_expense';
+import NewGroup, { GroupFormData } from '@/components/ui/new_group';
+import Link from 'next/link';
 
 const Dashboard = () => {
   // Mock data
@@ -40,6 +43,40 @@ const Dashboard = () => {
     { label: "Active Groups", value: "8", change: "+2", trend: "up" }
   ];
 
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const createDialogRef = useRef<HTMLDivElement>(null);
+  const [showAddExpenseDialog, setShowAddExpenseDialog] = useState(false);
+  const addExpenseDialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (createDialogRef.current && !createDialogRef.current.contains(event.target as Node)) {
+        setShowCreateDialog(false);
+      }
+    };
+    if (showCreateDialog) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showCreateDialog]);
+
+  const handleCreateGroup = (groupData: GroupFormData) => {
+    console.log('Creating group:', groupData);
+    // Here you would typically send the data to your API
+  };
+
+  const handleAddExpense = () => {
+    setShowAddExpenseDialog(true);
+  };
+
+  const handleExpenseSubmit = (expenseData: ExpenseFormData) => {
+    console.log('Creating expense:', expenseData);
+    // Here you would typically send the data to your API
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Header */}
@@ -59,13 +96,16 @@ const Dashboard = () => {
 
             {/* Search & Actions */}
             <div className="flex items-center space-x-4">
-             
-            
+
+
               <button className="p-2 hover:bg-slate-100 rounded-xl transition-colors relative">
                 <Bell className="h-5 w-5 text-slate-600" />
                 <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full animate-pulse"></span>
               </button>
-              <button className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-4 py-2 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center space-x-2">
+              <button
+                onClick={handleAddExpense}
+                className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-4 py-2 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center space-x-2"
+              >
                 <Plus className="h-4 w-4" />
                 <span className="font-medium">Add Expense</span>
               </button>
@@ -88,8 +128,8 @@ const Dashboard = () => {
             <div key={index} className="bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-6 hover:shadow-lg hover:shadow-slate-200/50 transition-all">
               <div className="flex items-center justify-between mb-4">
                 <p className="text-sm font-medium text-slate-600">{stat.label}</p>
-                {stat.trend === 'up' ? 
-                  <ArrowUpRight className="h-4 w-4 text-emerald-500" /> : 
+                {stat.trend === 'up' ?
+                  <ArrowUpRight className="h-4 w-4 text-emerald-500" /> :
                   <ArrowDownLeft className="h-4 w-4 text-red-500" />
                 }
               </div>
@@ -118,7 +158,7 @@ const Dashboard = () => {
                   </button>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 {recentTransactions.map((transaction) => (
                   <div key={transaction.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-xl hover:bg-slate-100/50 transition-colors group">
@@ -147,10 +187,12 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
-              
-              <button className="w-full mt-4 py-3 text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
-                View All Transactions
-              </button>
+
+              <div className="w-full mt-4 py-3 text-emerald-600 hover:text-emerald-700 font-medium transition-colors block text-center">
+                <Link href="/transaction">
+                  View All Transactions
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -160,11 +202,11 @@ const Dashboard = () => {
             <div className="bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-slate-800">Your Groups</h3>
-                <button className="text-emerald-600 hover:text-emerald-700 transition-colors">
-                  <Plus className="h-5 w-5" />
-                </button>
+                <Link href="/groups" className="text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                  View All
+                </Link>
               </div>
-              
+
               <div className="space-y-3">
                 {groups.map((group) => (
                   <div key={group.id} className="flex items-center justify-between p-3 bg-slate-50/50 rounded-xl hover:bg-slate-100/50 transition-colors group cursor-pointer">
@@ -192,23 +234,29 @@ const Dashboard = () => {
             {/* Quick Actions */}
             <div className="bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-6">
               <h3 className="text-xl font-bold text-slate-800 mb-6">Quick Actions</h3>
-              
+
               <div className="grid grid-cols-2 gap-3">
-                <button className="p-4 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl text-white hover:shadow-lg hover:shadow-emerald-500/25 transition-all group">
+                <button
+                  onClick={handleAddExpense}
+                  className="p-4 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl text-white hover:shadow-lg hover:shadow-emerald-500/25 transition-all group"
+                >
                   <Plus className="h-5 w-5 mb-2 group-hover:scale-110 transition-transform" />
                   <p className="text-sm font-medium">Add Expense</p>
                 </button>
-                
-                <button className="p-4 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all group">
+
+                <button
+                  onClick={() => setShowCreateDialog(true)}
+                  className="p-4 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all group"
+                >
                   <Users className="h-5 w-5 mb-2 group-hover:scale-110 transition-transform" />
                   <p className="text-sm font-medium">New Group</p>
                 </button>
-                
+
                 <button className="p-4 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all group">
                   <PieChart className="h-5 w-5 mb-2 group-hover:scale-110 transition-transform" />
                   <p className="text-sm font-medium">Analytics</p>
                 </button>
-                
+
                 <button className="p-4 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl text-white hover:shadow-lg hover:shadow-orange-500/25 transition-all group">
                   <TrendingUp className="h-5 w-5 mb-2 group-hover:scale-110 transition-transform" />
                   <p className="text-sm font-medium">Settle Up</p>
@@ -222,17 +270,17 @@ const Dashboard = () => {
                 <h3 className="text-lg font-bold">Net Balance</h3>
                 <Sparkles className="h-5 w-5 animate-pulse" />
               </div>
-              
+
               <div className="space-y-3">
                 <div>
                   <p className="text-sm text-emerald-100">You're owed</p>
                   <p className="text-2xl font-bold">$245.30</p>
                 </div>
-                
+
                 <div className="w-full bg-emerald-500/30 rounded-full h-2">
                   <div className="bg-white h-2 rounded-full" style={{ width: '65%' }}></div>
                 </div>
-                
+
                 <p className="text-xs text-emerald-100">
                   Great! You're ahead by $116.55 this month
                 </p>
@@ -241,6 +289,21 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Add Expense Dialog */}
+      <AddExpense
+        isOpen={showAddExpenseDialog}
+        onClose={() => setShowAddExpenseDialog(false)}
+        onSubmit={handleExpenseSubmit}
+        groups={groups}
+      />
+
+      {/* Create Group Dialog */}
+      <NewGroup
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onSubmit={handleCreateGroup}
+      />
     </div>
   );
 };
